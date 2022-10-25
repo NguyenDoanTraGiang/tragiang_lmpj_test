@@ -32,5 +32,8 @@ public class Book {
     @OneToMany(cascade = CascadeType.PERSIST, mappedBy = "book")
     private List<Bill> bills;
 
+    @ManyToOne
+    @JoinColumn(name = "book_type_id", nullable = false)
+    private BookType bookType;
 
 }
