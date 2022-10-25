@@ -20,6 +20,6 @@ public class BookType {
     @Column(name="type_name", nullable = false, length = 30)
     private String typeName;
 
-    @OneToMany(cascade = CascadeType.PERSIST, mappedBy = "book_type")
+    @OneToMany(cascade = CascadeType.PERSIST, mappedBy = "bookType")
     private List<Book> books;
 }
