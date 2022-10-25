@@ -33,7 +33,14 @@ public class ReaderServiceImpl implements ReaderService{
 
     @Override
     public Reader updateReader(Integer readerId, Reader readerDetails) throws ResourceNotFoundException {
-        return null;
+        Reader reader = readerRepository.findById(readerId).orElseThrow(() -> new ResourceNotFoundException("Reader not found by this id: + readerId"));
+        reader.setFirstName(readerDetails.getFirstName());
+        reader.setLastName(readerDetails.getLastName());
+        reader.setEmail(readerDetails.getEmail());
+        reader.setPhoneNum(readerDetails.getPhoneNum());
+
+        final Reader updateReader = readerRepository.save(reader);
+        return updateReader;
     }
 
     @Override
