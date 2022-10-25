@@ -63,4 +63,21 @@ public class ReaderController {
         ReaderDto readerResponse = modelMapper.map(reader, ReaderDto.class);
         return new ResponseEntity<ReaderDto>(readerResponse, HttpStatus.CREATED);
     }
+
+    /**
+     * Chinh sua thong tin nguoi muon
+     * @param readerId
+     * @param readerDto
+     * @return
+     * @throws ResourceNotFoundException
+     */
+    @PutMapping("/readers/{readerId}")
+    public ResponseEntity<ReaderDto> updateReader(@PathVariable(name="readerId") Integer readerId, @RequestBody ReaderDto readerDto)
+            throws ResourceNotFoundException{
+            Reader readerRequest = modelMapper.map(readerDto, Reader.class);
+            Reader updatedReader = readerService.updateReader(readerId, readerRequest);
+
+            ReaderDto readerResponse = modelMapper.map(updatedReader, ReaderDto.class);
+            return ResponseEntity.ok().body(readerResponse);
+    }
 }
