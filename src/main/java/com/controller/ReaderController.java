@@ -2,12 +2,12 @@ package com.controller;
 
 import com.dto.ReaderDto;
 import com.entity.Reader;
+import com.exception.ResourceNotFoundException;
 import com.service.ReaderService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -36,5 +36,17 @@ public class ReaderController {
         return readerDtoList;
     }
 
+    /**
+     * Xem chi tiet mot nguoi dung bang id
+     * @param readerId
+     * @return
+     * @throws ResourceNotFoundException
+     */
+    @GetMapping("/readers/{readerId}")
+    public ResponseEntity getReaderById(@PathVariable(name="readerId") Integer readerId) throws ResourceNotFoundException {
+        Reader reader = readerService.getReaderById(readerId);
+        ReaderDto response = modelMapper.map(reader, ReaderDto.class);
+        return ResponseEntity.ok().body(response);
 
+    }
 }
