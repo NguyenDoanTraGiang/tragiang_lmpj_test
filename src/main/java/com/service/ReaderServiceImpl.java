@@ -15,11 +15,15 @@ public class ReaderServiceImpl implements ReaderService{
         this.readerRepository = readerRepository;
     }
 
+    /**
+     * Xem danh sach nguoi muon
+     */
 
     @Override
     public List<Reader> getReaderList() {
-        return null;
+        return readerRepository.findAll();
     }
+
 
     @Override
     public Reader getReaderById(Integer readerId) throws ResourceNotFoundException {
