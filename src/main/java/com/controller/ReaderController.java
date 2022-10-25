@@ -18,10 +18,10 @@ import java.util.stream.Collectors;
 @RequestMapping("/library")
 public class ReaderController {
     @Autowired
-    ModelMapper modelMapper;
+    private ModelMapper modelMapper;
 
-    ReaderService readerService;
-    ReaderController(ReaderService readerService){
+    private ReaderService readerService;
+    public ReaderController(ReaderService readerService){
         super();
         this.readerService = readerService;
     }
