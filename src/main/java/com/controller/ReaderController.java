@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
@@ -79,5 +80,16 @@ public class ReaderController {
 
             ReaderDto readerResponse = modelMapper.map(updatedReader, ReaderDto.class);
             return ResponseEntity.ok().body(readerResponse);
+    }
+
+    /**
+     * Xoa nguoi muon
+     * @param readerId
+     * @return
+     * @throws ResourceNotFoundException
+     */
+    @DeleteMapping("/readers/{readerId}")
+    public Map<String, Boolean> deleteReader(@PathVariable(name="readerId") Integer readerId) throws ResourceNotFoundException{
+        return readerService.deleteReader(readerId);
     }
 }
