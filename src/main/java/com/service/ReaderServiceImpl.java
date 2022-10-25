@@ -4,6 +4,7 @@ import com.entity.Reader;
 import com.exception.ResourceNotFoundException;
 import com.repository.ReaderRepository;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -45,6 +46,10 @@ public class ReaderServiceImpl implements ReaderService{
 
     @Override
     public Map<String, Boolean> deleteReader(Integer readerId) throws ResourceNotFoundException {
-        return null;
+        Reader reader = readerRepository.findById(readerId).orElseThrow(() -> new ResourceNotFoundException("Reader not found by this id: + readerId"));
+        readerRepository.delete(reader);
+        Map<String, Boolean> response = new HashMap<>();
+        response.put("reader deleted", Boolean.TRUE);
+        return response;
     }
 }
