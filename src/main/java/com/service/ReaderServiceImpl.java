@@ -3,11 +3,13 @@ package com.service;
 import com.entity.Reader;
 import com.exception.ResourceNotFoundException;
 import com.repository.ReaderRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Service
 public class ReaderServiceImpl implements ReaderService{
     private ReaderRepository readerRepository;
 
