@@ -28,7 +28,7 @@ public class ReaderServiceImpl implements ReaderService{
 
     @Override
     public Reader createReader(Reader reader) {
-        return null;
+        return readerRepository.save(reader);
     }
 
     @Override
