@@ -1,6 +1,7 @@
 package com.entity;
 
 import lombok.*;
+import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -19,10 +20,9 @@ public class Bill {
     private long billId;
 
     @Column(name="borrow_date", nullable = false)
-    @Temporal(TemporalType.DATE)
+    @CreatedDate
     private Date borrowDate;
 
     @Column(name="return_date", nullable = false)
-    @Temporal(TemporalType.DATE)
     private Date returnDate;
 }
