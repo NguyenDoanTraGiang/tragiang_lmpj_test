@@ -3,6 +3,7 @@ package com.entity;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.*;
 
 @Entity
 @Table(name = "reader")
@@ -27,4 +28,7 @@ public class Reader {
 
     @Column(name="email")
     private String email;
+
+    @OneToMany(cascade = CascadeType.PERSIST, mappedBy = "reader")
+    private List<Bill> bills;
 }

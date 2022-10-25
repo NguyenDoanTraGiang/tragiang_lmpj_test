@@ -3,6 +3,7 @@ package com.entity;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.*;
 
 @Entity
 @Table(name = "book")
@@ -27,5 +28,9 @@ public class Book {
 
     @Column(name="status", nullable = false)
     private boolean status;
+
+    @OneToMany(cascade = CascadeType.PERSIST, mappedBy = "book")
+    private List<Bill> bills;
+
 
 }
