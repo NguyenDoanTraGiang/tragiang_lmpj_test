@@ -25,4 +25,12 @@ public class Bill {
 
     @Column(name="return_date", nullable = false)
     private Date returnDate;
+
+    @ManyToOne
+    @JoinColumn(name = "book_id", nullable = false)
+    private Book book;
+
+    @ManyToOne
+    @JoinColumn(name = "reader_id", nullable = false)
+    private Reader reader;
 }
