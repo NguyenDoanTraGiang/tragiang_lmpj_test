@@ -6,6 +6,7 @@ import com.exception.ResourceNotFoundException;
 import com.service.ReaderService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -47,6 +48,19 @@ public class ReaderController {
         Reader reader = readerService.getReaderById(readerId);
         ReaderDto response = modelMapper.map(reader, ReaderDto.class);
         return ResponseEntity.ok().body(response);
+    }
 
+    /**
+     * Tao nguoi muon moi
+     * @param readerDto
+     * @return
+     */
+
+    @PostMapping("/readers")
+    public ResponseEntity<ReaderDto> createReader(@RequestBody ReaderDto readerDto){
+        Reader readerRequests = modelMapper.map(readerDto, Reader.class);
+        Reader reader = readerService.createReader(readerRequests);
+        ReaderDto readerResponse = modelMapper.map(reader, ReaderDto.class);
+        return new ResponseEntity<ReaderDto>(readerResponse, HttpStatus.CREATED);
     }
 }
