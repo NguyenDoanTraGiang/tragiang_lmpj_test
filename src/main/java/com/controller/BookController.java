@@ -5,10 +5,9 @@ import com.entity.Book;
 import com.service.BookService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -46,5 +45,18 @@ public class BookController {
     public Book getBookInfo(@PathVariable(name="bookId")Long bookId){
         Book bookInfo = bookService.getBookById(bookId);
         return bookInfo;
+    }
+
+    /**
+     * Tao sach moi
+     * @param bookDto
+     * @return ResponseEntity<BookDto>
+     */
+    @PostMapping("/")
+    public ResponseEntity<BookDto> createBook(@RequestBody BookDto bookDto){
+        Book book = modelMapper.map(bookDto, Book.class);
+        Book createdBook = bookService.createBook(book);
+        BookDto response = modelMapper.map(createdBook, BookDto.class);
+        return new ResponseEntity<BookDto>(response, HttpStatus.CREATED);
     }
 }

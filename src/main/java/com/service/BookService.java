@@ -10,4 +10,5 @@ public interface BookService {
     Book getBookInfo(Long bookId);
     Book getBookById(Long bookId);
     List<Book> getBookList();
+    Book createBook(Book book);
 }
