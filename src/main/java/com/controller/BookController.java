@@ -14,7 +14,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/books")
+@RequestMapping("/library")
 
 public class BookController {
     @Autowired
@@ -30,7 +30,7 @@ public class BookController {
      * Xem danh sach cua tat ca book
      * @return List<BookDto>
      */
-    @GetMapping("/")
+    @GetMapping("/books")
     public List<BookDto> getBookList(){
         List<Book> bookList = bookService.getBookList();
         List<BookDto> bookDtoList = bookList.stream().map(book -> modelMapper.map(book, BookDto.class)).collect(Collectors.toList());
@@ -42,7 +42,7 @@ public class BookController {
      * @param bookId
      * @return Book bookInfo
      */
-    @GetMapping("/full-info/{bookId}")
+    @GetMapping("/books/{bookId}")
     public Book getBookInfo(@PathVariable(name="bookId")Long bookId){
         Book bookInfo = bookService.getBookById(bookId);
         return bookInfo;
@@ -53,7 +53,7 @@ public class BookController {
      * @param bookDto
      * @return ResponseEntity<BookDto>
      */
-    @PostMapping("/")
+    @PostMapping("/books")
     public ResponseEntity<BookDto> createBook(@RequestBody BookDto bookDto){
         Book book = modelMapper.map(bookDto, Book.class);
         Book createdBook = bookService.createBook(book);
@@ -68,7 +68,7 @@ public class BookController {
      * @return ResponseEntity.ok().body(BookDto)
      */
 
-    @PutMapping("/{bookId}")
+    @PutMapping("/books/{bookId}")
     public ResponseEntity<BookDto> updateBook(@PathVariable(name="bookId") long bookId, @RequestBody BookDto bookDto){
         Book bookRequest = modelMapper.map(bookDto, Book.class);
         Book updatedBook = bookService.updateBook(bookId, bookRequest);
@@ -81,7 +81,7 @@ public class BookController {
      * @param bookId
      * @return Map<String, Boolean> response
      */
-    @DeleteMapping("/{bookId}")
+    @DeleteMapping("/books/{bookId}")
     public Map<String, Boolean> deleteBook(@PathVariable(name="bookId") long bookId){
         return bookService.deleteBook(bookId);
     }
