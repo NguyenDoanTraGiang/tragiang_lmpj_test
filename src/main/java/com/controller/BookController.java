@@ -1,5 +1,6 @@
 package com.controller;
 
+import com.dto.BookDetailsDto;
 import com.dto.BookDto;
 import com.entity.Book;
 import com.service.BookService;
@@ -31,9 +32,19 @@ public class BookController {
      * @return List<BookDto>
      */
     @GetMapping("/books")
-    public List<BookDto> getBookList(){
+    public List<BookDetailsDto> getBookList(){
         List<Book> bookList = bookService.getBookList();
-        List<BookDto> bookDtoList = bookList.stream().map(book -> modelMapper.map(book, BookDto.class)).collect(Collectors.toList());
+        List<BookDetailsDto> bookDtoList = bookList.stream().map(book -> {
+            return BookDetailsDto
+                    .builder()
+                    .bookName(book.getBookName())
+                    .authorName(book.getAuthorName())
+                    .edition(book.getEdition())
+                    .status(book.isStatus())
+                    .bookId(book.getId())
+                    .bookTypeName(book.getBookType().getTypeName())
+                    .build();
+        }).collect(Collectors.toList());
         return bookDtoList;
     }
 
