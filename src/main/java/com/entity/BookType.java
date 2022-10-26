@@ -1,5 +1,9 @@
 package com.entity;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.*;
 
 import javax.persistence.*;
@@ -20,6 +24,7 @@ public class BookType {
     @Column(name="type_name", nullable = false, length = 30)
     private String typeName;
 
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.PERSIST, mappedBy = "bookType")
     private List<Book> books;
 }
