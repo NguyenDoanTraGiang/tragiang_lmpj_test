@@ -23,5 +23,14 @@ public class BookController {
         this.bookService = bookService;
     }
 
-
+    /**
+     * Xem chi tiet mot cuon sach cu the
+     * @param bookId
+     * @return Book bookInfo
+     */
+    @GetMapping("/full-info/{bookId}")
+    public Book getBookInfo(@PathVariable(name="bookId")Long bookId){
+        Book bookInfo = bookService.getBookById(bookId);
+        return bookInfo;
+    }
 }
