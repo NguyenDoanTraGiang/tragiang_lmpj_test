@@ -10,6 +10,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @RestController
 @RequestMapping("/books")
 
@@ -21,6 +24,17 @@ public class BookController {
     public BookController(BookService bookService){
         super();
         this.bookService = bookService;
+    }
+
+    /**
+     * Xem danh sach cua tat ca book
+     * @return List<BookDto>
+     */
+    @GetMapping("/")
+    public List<BookDto> getBookList(){
+        List<Book> bookList = bookService.getBookList();
+        List<BookDto> bookDtoList = bookList.stream().map(book -> modelMapper.map(book, BookDto.class)).collect(Collectors.toList());
+        return bookDtoList;
     }
 
     /**

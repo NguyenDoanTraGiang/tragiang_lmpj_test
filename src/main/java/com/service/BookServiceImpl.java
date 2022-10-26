@@ -6,6 +6,8 @@ import com.repository.ReaderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class BookServiceImpl implements BookService{
     @Autowired
@@ -19,5 +21,10 @@ public class BookServiceImpl implements BookService{
     @Override
     public Book getBookById(Long bookId){
         return bookRepository.getBookById(bookId);
+    }
+
+    @Override
+    public List<Book> getBookList(){
+        return bookRepository.findAll();
     }
 }
