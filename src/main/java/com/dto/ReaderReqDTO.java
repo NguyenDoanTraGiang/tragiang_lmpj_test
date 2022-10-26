@@ -12,5 +12,9 @@ import java.util.List;
 @AllArgsConstructor
 public class ReaderReqDTO {
     private int readerId;
+    private String firstName;
+    private String lastName;
+    private int phoneNum;
+    private String email;
     private List<Bill> bills;
 }
