@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
@@ -73,5 +74,15 @@ public class BookController {
         Book updatedBook = bookService.updateBook(bookId, bookRequest);
         BookDto bookResponse = modelMapper.map(updatedBook, BookDto.class);
         return ResponseEntity.ok().body(bookResponse);
+    }
+
+    /**
+     * Xoa sach
+     * @param bookId
+     * @return Map<String, Boolean> response
+     */
+    @DeleteMapping("/{bookId}")
+    public Map<String, Boolean> deleteBook(@PathVariable(name="bookId") long bookId){
+        return bookService.deleteBook(bookId);
     }
 }

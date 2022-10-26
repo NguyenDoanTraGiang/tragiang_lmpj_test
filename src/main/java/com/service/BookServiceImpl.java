@@ -6,7 +6,9 @@ import com.repository.ReaderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class BookServiceImpl implements BookService{
@@ -45,5 +47,12 @@ public class BookServiceImpl implements BookService{
         return updatedBook;
     }
 
-
+    @Override
+    public Map<String, Boolean> deleteBook(long bookId) {
+        Book book = bookRepository.getBookById(bookId);
+        bookRepository.delete(book);
+        Map<String, Boolean> response = new HashMap<>();
+        response.put("book deleted", true);
+        return response;
+    }
 }
