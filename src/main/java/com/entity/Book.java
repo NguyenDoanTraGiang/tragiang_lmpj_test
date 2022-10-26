@@ -1,5 +1,9 @@
 package com.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.*;
 
 import javax.persistence.*;
@@ -14,8 +18,9 @@ import java.util.*;
 @ToString
 public class Book {
     @Id
+    @Column(name="book_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long bookId;
+    private long id;
 
     @Column(name="book_name", nullable = false, length=100)
     private String bookName;
@@ -29,11 +34,12 @@ public class Book {
     @Column(name="status", nullable = false)
     private boolean status;
 
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.PERSIST, mappedBy = "book")
     private List<Bill> bills;
 
     @ManyToOne
-    @JoinColumn(name = "book_type_id", nullable = false)
+    @JoinColumn(name = "book_type_id", nullable = false,  insertable = false, updatable = false)
     private BookType bookType;
 
 }
