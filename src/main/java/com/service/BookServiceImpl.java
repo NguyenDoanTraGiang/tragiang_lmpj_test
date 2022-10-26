@@ -32,4 +32,18 @@ public class BookServiceImpl implements BookService{
     public Book createBook(Book book){
         return bookRepository.save(book);
     }
+
+    @Override
+    public Book updateBook(long bookId, Book bookDetails) {
+        Book book = bookRepository.getBookById(bookId);
+        book.setBookName(bookDetails.getBookName());
+        book.setAuthorName(bookDetails.getAuthorName());
+        book.setEdition(bookDetails.getEdition());
+        book.setStatus(bookDetails.isStatus());
+        book.setBookType(bookDetails.getBookType());
+        final Book updatedBook = bookRepository.save(book);
+        return updatedBook;
+    }
+
+
 }

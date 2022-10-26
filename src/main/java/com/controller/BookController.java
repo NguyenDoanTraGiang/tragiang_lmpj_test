@@ -59,4 +59,19 @@ public class BookController {
         BookDto response = modelMapper.map(createdBook, BookDto.class);
         return new ResponseEntity<BookDto>(response, HttpStatus.CREATED);
     }
+
+    /**
+     * Chinh sua sach
+     * @param bookId
+     * @param bookDto
+     * @return ResponseEntity.ok().body(BookDto)
+     */
+
+    @PutMapping("/{bookId}")
+    public ResponseEntity<BookDto> updateBook(@PathVariable(name="bookId") long bookId, @RequestBody BookDto bookDto){
+        Book bookRequest = modelMapper.map(bookDto, Book.class);
+        Book updatedBook = bookService.updateBook(bookId, bookRequest);
+        BookDto bookResponse = modelMapper.map(updatedBook, BookDto.class);
+        return ResponseEntity.ok().body(bookResponse);
+    }
 }

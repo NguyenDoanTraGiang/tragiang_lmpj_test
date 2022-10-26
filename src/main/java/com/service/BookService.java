@@ -11,4 +11,5 @@ public interface BookService {
     Book getBookById(Long bookId);
     List<Book> getBookList();
     Book createBook(Book book);
+    Book updateBook(long bookId, Book bookDetails);
 }
