@@ -1,6 +1,8 @@
 package com.controller;
 
 import com.dto.ReaderDto;
+import com.dto.ReaderReqDTO;
+import com.dto.ReaderResDTO;
 import com.entity.Reader;
 import com.exception.ResourceNotFoundException;
 import com.service.ReaderService;
@@ -53,16 +55,16 @@ public class ReaderController {
 
     /**
      * Tao nguoi muon moi
-     * @param readerDto
+     * @param readerResDTO
      * @return
      */
 
     @PostMapping("/readers")
-    public ResponseEntity<ReaderDto> createReader(@RequestBody ReaderDto readerDto){
-        Reader readerRequests = modelMapper.map(readerDto, Reader.class);
+    public ResponseEntity<ReaderReqDTO> createReader(@RequestBody ReaderResDTO readerResDTO){
+        Reader readerRequests = modelMapper.map(readerResDTO, Reader.class);
         Reader reader = readerService.createReader(readerRequests);
-        ReaderDto readerResponse = modelMapper.map(reader, ReaderDto.class);
-        return new ResponseEntity<ReaderDto>(readerResponse, HttpStatus.CREATED);
+        ReaderReqDTO readerResponse = modelMapper.map(reader, ReaderReqDTO.class);
+        return new ResponseEntity<ReaderReqDTO>(readerResponse, HttpStatus.CREATED);
     }
 
     /**
