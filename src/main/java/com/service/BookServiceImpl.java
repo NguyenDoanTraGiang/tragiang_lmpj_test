@@ -30,6 +30,12 @@ public class BookServiceImpl implements BookService{
         return bookRepository.save(book);
     }
 
+    /*@Override
+    public void createBook(String bookName, String authorName, String edition, boolean status, int bookTypeId){
+
+    };
+    */
+
     @Override
     public Book updateBook(long bookId, Book bookDetails) {
         Book book = bookRepository.getBookById(bookId);

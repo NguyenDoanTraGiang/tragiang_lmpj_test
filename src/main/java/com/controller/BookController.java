@@ -1,9 +1,14 @@
 package com.controller;
 
-import com.dto.BookDetailsDto;
+import com.dto.BookDetailsReqDto;
+import com.dto.BookDetailsResDto;
 import com.dto.BookDto;
 import com.entity.Book;
+import com.entity.BookType;
+import com.exception.ResourceNotFoundException;
+import com.repository.BookTypeRepository;
 import com.service.BookService;
+import com.service.BookTypeService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,6 +26,9 @@ public class BookController {
     @Autowired
     private ModelMapper modelMapper;
 
+    @Autowired
+    private BookTypeService bookTypeService;
+
     private BookService bookService;
     public BookController(BookService bookService){
         super();
@@ -32,10 +40,10 @@ public class BookController {
      * @return List<BookDto>
      */
     @GetMapping("/books")
-    public List<BookDetailsDto> getBookList(){
+    public List<BookDetailsResDto> getBookList(){
         List<Book> bookList = bookService.getBookList();
-        List<BookDetailsDto> bookDtoList = bookList.stream().map(book -> {
-            return BookDetailsDto
+        return bookList.stream().map(book -> {
+            return BookDetailsResDto
                     .builder()
                     .bookName(book.getBookName())
                     .authorName(book.getAuthorName())
@@ -45,7 +53,6 @@ public class BookController {
                     .bookTypeName(book.getBookType().getTypeName())
                     .build();
         }).collect(Collectors.toList());
-        return bookDtoList;
     }
 
     /**
@@ -54,9 +61,9 @@ public class BookController {
      * @return Book bookInfo
      */
     @GetMapping("/books/{bookId}")
-    public BookDetailsDto getBookById(@PathVariable(name="bookId")Long bookId){
+    public BookDetailsResDto getBookById(@PathVariable(name="bookId")Long bookId){
         Book book = bookService.getBookById(bookId);
-        BookDetailsDto bookDetailsDto = BookDetailsDto
+        BookDetailsResDto bookDetailsDto = BookDetailsResDto
                 .builder()
                 .bookName(book.getBookName())
                 .authorName(book.getAuthorName())
@@ -70,31 +77,77 @@ public class BookController {
 
     /**
      * Tao sach moi
-     * @param bookDto
+     * @param bookDetailsReqDto
      * @return ResponseEntity<BookDto>
      */
     @PostMapping("/books")
-    public ResponseEntity<BookDto> createBook(@RequestBody BookDto bookDto){
-        Book book = modelMapper.map(bookDto, Book.class);
+    public ResponseEntity<BookDetailsResDto> createBook(@RequestBody BookDetailsReqDto bookDetailsReqDto) {
+       /* bookService.createBook(
+                bookDetailsReqDto.getBookName(),
+                bookDetailsReqDto.getAuthorName(),
+                bookDetailsReqDto.getEdition(),
+                bookDetailsReqDto.isStatus(),
+                bookDetailsReqDto.getBookTypeId()
+        );*/
+        BookType bookType = bookTypeService.findByTypeName(bookDetailsReqDto.getBookTypeName());
+        // map BookDetailsReqDto to Book
+        Book book = Book
+                .builder()
+                .bookName(bookDetailsReqDto.getBookName())
+                .authorName(bookDetailsReqDto.getAuthorName())
+                .edition(bookDetailsReqDto.getEdition())
+                .status(bookDetailsReqDto.isStatus())
+                .bookType(bookType)
+                .build();
+
         Book createdBook = bookService.createBook(book);
-        BookDto response = modelMapper.map(createdBook, BookDto.class);
-        return new ResponseEntity<BookDto>(response, HttpStatus.CREATED);
+
+        // map createdBook to BookDetailsResDto
+        BookDetailsResDto response = BookDetailsResDto
+                .builder()
+                .bookName(createdBook.getBookName())
+                .authorName(createdBook.getAuthorName())
+                .edition(createdBook.getEdition())
+                .status(createdBook.isStatus())
+                .bookTypeName(createdBook.getBookType().getTypeName())
+                .build();
+
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
     /**
      * Chinh sua sach
      * @param bookId
-     * @param bookDto
+     * @param bookDetailsReqDto
      * @return ResponseEntity.ok().body(BookDto)
      */
 
-    @PutMapping("/books/{bookId}")
-    public ResponseEntity<BookDto> updateBook(@PathVariable(name="bookId") long bookId, @RequestBody BookDto bookDto){
-        Book bookRequest = modelMapper.map(bookDto, Book.class);
+    /*@PutMapping("/books/{bookId}")
+    public ResponseEntity<BookDetailsResDto> updateBook(@PathVariable(name="bookId") long bookId, @RequestBody BookDetailsReqDto bookDetailsReqDto)
+            throws ResourceNotFoundException {
+
+        Book bookRequest = Book
+                .builder()
+                .bookName(bookDetailsReqDto.getBookName())
+                .authorName(bookDetailsReqDto.getAuthorName())
+                .edition(bookDetailsReqDto.getEdition())
+                .status(bookDetailsReqDto.isStatus())
+                .bookType(bookTypeService.getBookTypeById(bookDetailsReqDto.getBookTypeId())) // search BookType by ID
+                .build();
+
         Book updatedBook = bookService.updateBook(bookId, bookRequest);
-        BookDto bookResponse = modelMapper.map(updatedBook, BookDto.class);
+
+        BookDetailsResDto bookResponse = BookDetailsResDto
+                .builder()
+                .bookId(updatedBook.getId())
+                .bookName(updatedBook.getBookName())
+                .authorName(updatedBook.getAuthorName())
+                .edition(updatedBook.getEdition())
+                .status(updatedBook.isStatus())
+                .bookTypeName(updatedBook.getBookType().getTypeName())
+                .build();
         return ResponseEntity.ok().body(bookResponse);
-    }
+    }*/
 
     /**
      * Xoa sach

@@ -29,4 +29,13 @@ public class BookTypeServiceImpl implements BookTypeService{
     public BookType createBookType(BookType bookType) {
         return bookTypeRepository.save(bookType);
     }
+
+    @Override
+    public BookType findByTypeName(String bookTypeName) {
+        if(bookTypeRepository.findByTypeName(bookTypeName).isPresent()) {
+            return bookTypeRepository.findByTypeName(bookTypeName).get();
+        }
+        bookTypeRepository.save(new BookType(bookTypeName));
+        return new BookType(bookTypeName);
+    }
 }

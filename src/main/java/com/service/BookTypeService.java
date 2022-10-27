@@ -9,4 +9,5 @@ public interface BookTypeService {
     List<BookType> getBookTypeList();
     BookType getBookTypeById(int typeId) throws ResourceNotFoundException;
     BookType createBookType(BookType bookType);
+    BookType findByTypeName(String bookTypeName);
 }
