@@ -54,7 +54,7 @@ public class BookController {
      * @return Book bookInfo
      */
     @GetMapping("/books/{bookId}")
-    public BookDetailsDto getBookInfo(@PathVariable(name="bookId")Long bookId){
+    public BookDetailsDto getBookById(@PathVariable(name="bookId")Long bookId){
         Book book = bookService.getBookById(bookId);
         BookDetailsDto bookDetailsDto = BookDetailsDto
                 .builder()
