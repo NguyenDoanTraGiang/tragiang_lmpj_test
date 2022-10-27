@@ -54,9 +54,18 @@ public class BookController {
      * @return Book bookInfo
      */
     @GetMapping("/books/{bookId}")
-    public Book getBookInfo(@PathVariable(name="bookId")Long bookId){
-        Book bookInfo = bookService.getBookById(bookId);
-        return bookInfo;
+    public BookDetailsDto getBookInfo(@PathVariable(name="bookId")Long bookId){
+        Book book = bookService.getBookById(bookId);
+        BookDetailsDto bookDetailsDto = BookDetailsDto
+                .builder()
+                .bookName(book.getBookName())
+                .authorName(book.getAuthorName())
+                .edition(book.getEdition())
+                .status(book.isStatus())
+                .bookId(book.getId())
+                .bookTypeName(book.getBookType().getTypeName())
+                .build();
+        return bookDetailsDto;
     }
 
     /**
